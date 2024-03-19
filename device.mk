@@ -277,6 +277,10 @@ PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/idc/,$(TARGET_COPY_OUT_VENDOR)/usr/idc) \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/configs/keylayout/,$(TARGET_COPY_OUT_VENDOR)/usr/keylayout)
 
+# IFAA
+PRODUCT_PACKAGES += \
+    IFAAService
+
 # IPACM
 PRODUCT_PACKAGES += \
     ipacm \
