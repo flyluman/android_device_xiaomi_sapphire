@@ -186,7 +186,7 @@ debug.sf.latch_unsignaled=1
 debug.sf.predict_hwc_composition_strategy=0
 debug.sf.treat_170m_as_sRGB=1
 persist.sys.sf.color_mode=1
-persist.sys.sf.color_saturation=1.0
+persist.sys.sf.color_saturation=1.1
 ro.surface_flinger.enable_frame_rate_override=false
 ro.surface_flinger.force_hwc_copy_for_virtual_displays=true
 ro.surface_flinger.has_HDR_display=true
@@ -232,6 +232,13 @@ ro.vendor.mi_sf.aosp_vrr_support=false
 ro.vendor.whitepoint_calibration_enable=true
 ro.vendor.xiaomi.bl.poll=true
 sys.displayfeature_hidl=true
+
+# Dolby
+ro.vendor.dolby.dax.version=DAX3_3.8.5.20_r1
+ro.vendor.audio.dolby.dax.version=DAX3_3.8.5.20_r1
+ro.vendor.audio.dolby.dax.support=true
+ro.vendor.audio.dolby.eq.half=true
+ro.vendor.audio.dolby.surround.enable=false
 
 # FM
 vendor.hw.fm.init=0
@@ -329,6 +336,10 @@ vendor.usb.use_gadget_hal=0
 
 # Wi-Fi
 wifi.aware.interface=wifi-aware0
+ro.hardware.wlan.chip=wcn3988
+ro.hardware.wlan.dbs=0
+ro.hardware.wlan.mimo=0
+ro.hardware.wlan.vendor=qcom
 
 # Zygote
 zygote.critical_window.minute=10

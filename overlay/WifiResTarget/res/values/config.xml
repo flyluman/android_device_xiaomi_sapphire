@@ -12,7 +12,7 @@
     <bool name="config_wifi5ghzSupport" translatable="false">true</bool>
 
     <!-- boolean indicating whether the WiFi chipset has 6GHz band support -->
-    <bool name="config_wifi6ghzSupport" translatable="false">true</bool>
+    <bool name="config_wifi6ghzSupport" translatable="false">false</bool>
 
     <!-- Boolean indicating whether the wifi chipset supports background scanning mechanism.
          This mechanism allows the host to remain in suspend state and the dongle to actively
@@ -45,7 +45,7 @@
     <bool name="config_wifiSoftapHeSuBeamformeeSupported" translatable="false">true</bool>
 
     <!-- Wifi driver supports 6GHz band for softap when chip support 6GHz -->
-    <bool name="config_wifiSoftap6ghzSupported" translatable="false">true</bool>
+    <bool name="config_wifiSoftap6ghzSupported" translatable="false">false</bool>
 
     <!-- Indicates that bridged AP mode is supported on this device -->
     <bool name="config_wifiBridgedSoftApSupported" translatable="false">false</bool>
@@ -87,5 +87,8 @@
 
     <!-- Indicates whether or not the network-centric QoS policy feature is enabled. -->
     <bool name="config_wifiNetworkCentricQosPolicyFeatureEnabled" translatable="false">true</bool>
+    
+    <!-- Do not translate. Default access point SSID used for tethering -->
+    <string name="wifi_tether_configure_ssid_default" translatable="false">Redmi Note 13</string>
 
 </resources>

@@ -8,7 +8,7 @@ BUILD_BROKEN_DUP_RULES := true
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 BUILD_BROKEN_INCORRECT_PARTITION_IMAGES := true
 
-DEVICE_PATH := device/xiaomi/topaz
+DEVICE_PATH := device/xiaomi/sapphire
 KERNEL_PATH := $(DEVICE_PATH)-kernel
 
 # A/B
@@ -74,7 +74,7 @@ SOONG_CONFIG_ufsbsg_ufsframework := bsg
 TARGET_BOOTLOADER_BOARD_NAME := bengal
 
 # Display
-TARGET_SCREEN_DENSITY := 440
+TARGET_SCREEN_DENSITY := 437
 
 # DTB/DTBO
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
@@ -91,8 +91,8 @@ USE_OPENGL_RENDERER := true
 HWUI_COMPILE_FOR_PERF := true
 
 # Init
-TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):init_topaz
-TARGET_RECOVERY_DEVICE_MODULES := init_topaz
+TARGET_INIT_VENDOR_LIB := //$(DEVICE_PATH):init_sapphire
+TARGET_RECOVERY_DEVICE_MODULES := init_sapphire
 
 # Kernel
 BOARD_KERNEL_BASE := 0x00000000
@@ -273,9 +273,6 @@ DEVICE_MANIFEST_FILE += \
     $(DEVICE_PATH)/configs/vintf/manifest.xml \
     $(DEVICE_PATH)/configs/vintf/network_manifest.xml
 DEVICE_MATRIX_FILE := hardware/qcom-caf/common/compatibility_matrix.xml
-ODM_MANIFEST_SKUS += m7n um7n
-ODM_MANIFEST_M7N_FILES := $(DEVICE_PATH)/configs/vintf/manifest_nfc.xml
-ODM_MANIFEST_UM7N_FILES := $(DEVICE_PATH)/configs/vintf/manifest_nfc.xml
 
 # WiFi
 BOARD_WLAN_DEVICE := qcwcn
@@ -294,7 +291,7 @@ WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # Include the proprietary files BoardConfig.
-include vendor/xiaomi/topaz/BoardConfigVendor.mk
+include vendor/xiaomi/sapphire/BoardConfigVendor.mk
 
 # Inherit from proprietary files for miuicamera
--include device/xiaomi/miuicamera-topaz/BoardConfig.mk
+-include device/xiaomi/miuicamera-sapphire/BoardConfig.mk
