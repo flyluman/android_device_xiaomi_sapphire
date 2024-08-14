@@ -1,3 +1,2 @@
 # Fingerprint
-type fingerprint_device, dev_type;
-
+type vendor_fingerprint_device, dev_type;
