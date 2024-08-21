@@ -600,7 +600,7 @@ PRODUCT_COPY_FILES += \
 
 # Vibrator
 PRODUCT_PACKAGES += \
-    $(call inherit-product, hardware/xiaomi/aidl/vibrator/vibrator-vendor-product.mk)
+    $(call inherit-product, vendor/qcom/opensource/vibrator/vibrator-vendor-product.mk)
 
 PRODUCT_PACKAGES += \
     android.hardware.vibrator-V1-ndk_platform.vendor

@@ -5,9 +5,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_sapphire.mk
+    $(LOCAL_DIR)/aosp_sapphire.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_sapphire-user \
-    lineage_sapphire-userdebug \
-    lineage_sapphire-eng
+    aosp_sapphire-user \
+    aosp_sapphire-userdebug \
+    aosp_sapphire-eng
