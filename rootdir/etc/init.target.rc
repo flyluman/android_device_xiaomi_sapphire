@@ -56,12 +56,6 @@ on init
 
 on early-fs
     start vold
-    
-    # Xiaomi Thermal Profiles permissions
-    chmod 0664 /sys/class/thermal/thermal_message/sconfig
-    chown system system /sys/class/thermal/thermal_message/sconfig
-    chmod 0666 /sys/class/thermal/thermal_message/temp_state
-    chown system system /sys/class/thermal/thermal_message/temp_state
 
 on fs
     start hwservicemanager
@@ -70,6 +64,8 @@ on fs
     chmod 0771 /mnt/vendor/persist
     restorecon_recursive /mnt/vendor/persist
     mkdir /mnt/vendor/persist/data 0700 system system
+    mkdir /dev/logfs 0771 system system
+    mount vfat /dev/block/bootdevice/by-name/logfs /dev/logfs noatime umask=006,uid=1000,gid=1000
     mount ext4 /dev/block/bootdevice/by-name/rescue /mnt/rescue noatime
     restorecon_recursive /mnt/rescue
     chmod 0664 /sys/class/thermal/thermal_message/sconfig
@@ -82,6 +78,8 @@ on post-fs
     setrlimit 8 67108864 67108864
 
 on late-fs
+    wait_for_prop hwservicemanager.ready true
+    exec_start wait_for_keymaster
     mount_all /vendor/etc/fstab.qcom --late
 
 on post-fs-data
@@ -187,17 +185,9 @@ on boot
     chmod 0664 /sys/class/thermal/thermal_message/boost
     chown system system /sys/class/thermal/thermal_message/balance_mode
 
-# Xiaomi touch
-    chown system system /dev/xiaomi-touch
-    chmod 0660 /dev/xiaomi-touch
-
 #touch funtions permissions setting
 	chown system system /sys/class/touch/touch_dev/palm_sensor
 	chmod 0664 /sys/class/touch/touch_dev/palm_sensor
-
-    # DT2W
-    chown system system /proc/tp_gesture
-    chmod 0644 /proc/tp_gesture
 
 #USB controller configuration
     setprop vendor.usb.rndis.func.name "gsi"
@@ -212,6 +202,10 @@ on boot
 
 #Start mi_thermald
     start mi_thermald
+
+    # Set doze mode permissions
+    chown system system /sys/devices/platform/soc/soc:qcom,dsi-display-primary/doze_mode
+    chmod 0660 /sys/devices/platform/soc/soc:qcom,dsi-display-primary/doze_mode
 
 on boot && property:persist.vendor.usb.controller.default=*
     setprop vendor.usb.controller ${persist.vendor.usb.controller.default}
@@ -330,21 +324,6 @@ on property:persist.vendor.tcpdump.enable=false
 on property:persist.sys.cota.carrier=OR
    stop vendor.tcpdump
 
-# ZRAM
-on property:sys.boot_completed=1
-    # Disable statsd service to prevent additional battery drain
-    stop statsd
-    # Read only one page at a time
-    write /proc/sys/vm/page-cluster 0
-    # Swap more aggressively
-    write /proc/sys/vm/swappiness 50
-    # Set zRAM compression algorithm to LZ4
-    write /sys/block/zram0/comp_algorithm lz4
-    # Enable zRAM data deduplication feature
-    write /sys/block/zram0/use_dedup 1
-    # Mount swap partitions specified in fstab
-    swapon_all /vendor/etc/fstab.zram
-
 #add for btmac property
 on property:persist.ro.ril.oem.btmac=*
   setprop ro.ril.oem.btmac ${persist.ro.ril.oem.btmac}
@@ -371,8 +350,25 @@ on property:sys.volume.stream.music.device.bluetooth=*
 on property:sys.volume.stream.bluetoothsco=*
     setprop vendor.volume.stream.bluetoothsco ${sys.volume.stream.bluetoothsco}
 
+service vendor.audio-hal /vendor/bin/hw/android.hardware.audio.service
+    override
+    class hal
+    user audioserver
+    # media gid needed for /dev/fm (radio) and for /data/misc/media (tee)
+    group audio camera drmrpc inet media mediadrm net_bt net_bt_admin net_bw_acct oem_2901 wakelock oem_2912
+    capabilities BLOCK_SUSPEND SYS_NICE
+    # setting RLIMIT_RTPRIO allows binder RT priority inheritance
+    rlimit rtprio 10 10
+    ioprio rt 4
+    task_profiles ProcessCapacityHigh HighPerformance
+    onrestart restart audioserver
+    
 service vendor.power /vendor/bin/hw/android.hardware.power-service-qti
     override
     class hal
     user system
-    group system input
+    group system input    
+
+on property:sys.boot_completed=1
+    # Enable suspend to RAM
+    write /sys/power/mem_sleep "deep"
